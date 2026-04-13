@@ -1,11 +1,20 @@
 name: Build APK
-on: [push]
+on: 
+  workflow_dispatch: # This adds the "Manual" button
+  push:              # This still builds automatically when you save
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ArtemSBulgakov/buildozer-action@v1
+      - name: Build with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
         with:
           buildozer_version: stable
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Zamanai-APK
+          path: bin/*.apk
           
